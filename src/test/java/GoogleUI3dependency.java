@@ -44,31 +44,28 @@ public class GoogleUI3dependency {
     }
 
 
-    @Test (groups = "positive", )
+    @Test (groups = "positive", priority = 2)
     void SuccesfulLoginFirstStep() {
         FirstStep("safonov.sergi@gmail.com");
         Assert.assertTrue(doesElementExists("input[type='password']"));
     }
 
-    @Test (groups = "positive", priority = 4, dependsOnMethods = {"SuccessfulLoginFirstStep"})
+    @Test (groups = "positive", priority = 4, dependsOnMethods = {"SuccesfulLoginFirstStep"})
     void SuccessfullLoginSecondStep() {
-        SecondStep("notminepassword");
+        SecondStep("Notminepassword");
         Assert.assertFalse(doesElementExists("input[type='password']"));
     }
-    @Test (groups = "negative", )
+    @Test (groups = "negative", priority = 1 )
     void BadLoginFirstStep() {
         FirstStep("bafds32rfdspohka@gmail.com");
-        Assert.assertFalse(doesElementExists("input[type='password']"));
+        Assert.assertFalse(doesElementExists("input[name='password']"));
     }
 
-    @Test (groups = "negative", priority = 3, dependsOnMethods = {"SuccessfulLoginFirstStep"})
+    @Test (groups = "negative", priority = 3, dependsOnMethods = {"SuccesfulLoginFirstStep"})
     void BadLoginSecondStep() {
         SecondStep("123123123");
-        Assert.assertFalse(doesElementExists("input[type='password']"));
+        Assert.assertTrue(doesElementExists("input[type='password']"));
     }
-}
-
-
 
 
     boolean doesElementExists(String selector) {
@@ -89,7 +86,11 @@ public class GoogleUI3dependency {
         }
     }
 
-
+@AfterTest
+    void finishIt() {
+        driver.manage().deleteCookieNamed("GAPS");
+        driver.quit();
+}
 
 
 

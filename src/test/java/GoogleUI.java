@@ -44,9 +44,6 @@ public class GoogleUI {
         mySleep(3);
         Assert.assertFalse(doesElementExists("input[type='password']"));
     }
-}
-
-
 
 
     boolean doesElementExists(String selector) {
@@ -66,7 +63,6 @@ public class GoogleUI {
 
         }
     }
-
 
 
 

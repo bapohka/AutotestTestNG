@@ -58,9 +58,6 @@ public class GoogleUI1 {
 
         Assert.assertFalse(doesElementExists("input[type='password']"));
     }
-}
-
-
 
 
     boolean doesElementExists(String selector) {
@@ -80,8 +77,6 @@ public class GoogleUI1 {
 
         }
     }
-
-
 
 
 

@@ -64,8 +64,6 @@ public class GoogleUI2priority {
         SecondStep("123123123");
         Assert.assertFalse(doesElementExists("input[type='password']"));
     }
-}
-
 
 
 
