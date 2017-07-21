@@ -10,6 +10,8 @@ import org.testng.annotations.Test;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 
@@ -58,15 +60,40 @@ public class FileUpload {
         }
         Thread.sleep(10000);
 
-        System.out.println("i found 0 element from all elements: " + driver.findElements(By.cssSelector("a" +
-                ".item-name-link")).get(0)
-                .getAttribute("innerHTML"));
+        System.out.println("i found 0th element from all elements: " +
+                driver.findElements(By.cssSelector("a.item-name-link")).get(0)
+                .getAttribute("innerHTML") + "\n");
 
-        WebElement BoxContent = driver.findElement(By.cssSelector("a.item-name-link"));
-        String Txt = BoxContent.getText();
-        System.out.println("i found such text: " + Txt);
-        System.out.print("i found innerHTML:  " + BoxContent.getAttribute("innerHTML"));
-        Assert.assertTrue(FileName.equals(Txt));
+        // example from http://www.techbeamers.com/findelement-and-findelements-commands-examples/
+        // print the total number of elements
+        // Now using Iterator we will iterate all elements
+        // this will check whether list has some element or not
+        List<WebElement> rowsList = driver.findElements(By.cssSelector("a.item-name-link"));
+        System.out.println("Total selected rows are " + rowsList.size());
+        Iterator<WebElement> iter = rowsList.iterator();
+
+        while (iter.hasNext()) {
+            // Iterate one by one
+            // get the text
+            // print the text
+            WebElement checkItem = iter.next();
+            String label = checkItem.getText();
+            //System.out.println("Row label is " + label + " and it is " + label.contentEquals(FileName));
+                if (label.contentEquals(FileName)) {
+                    Assert.assertTrue(true);
+                    System.out.println( "i found that row label and it is " + label + " and it is fully the same - " +
+                            "i've checked it with equals: " + label.contentEquals(FileName) );
+                    break;
+                } else
+                        continue;
+        }
+        // так как другие могут заливать файл и мой отобразится не первым в списке - отказываюсь от поиска по первому
+        // найденному элементу
+        //WebElement BoxContent = driver.findElement(By.cssSelector("a.item-name-link"));
+        //String Txt = BoxContent.getText();
+        //System.out.println("i found such text: " + Txt);
+        //System.out.print("i found innerHTML:  " + BoxContent.getAttribute("innerHTML"));
+        //Assert.assertTrue(FileName.equals(Txt));
     }
 
     @AfterTest
